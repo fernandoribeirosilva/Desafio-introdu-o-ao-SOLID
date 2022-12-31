@@ -1,0 +1,330 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Documentação da API",
+    "description": "Desafio 02",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Registrar uma nova pessoa",
+        "description": "faze cadastramento da pessoa",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "josh",
+                  "email": "josh@example.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created and return a object with like the data a user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "example": "80b1982b-d636-4398-8a9d-04f32fea90f6"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "example": "false"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "josh"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "josh@example.com"
+                    },
+                    "created_at": {
+                      "type": "datetime",
+                      "example": "2022-12-24T19:07:44.386Z"
+                    },
+                    "updated_at": {
+                      "type": "datetime",
+                      "example": "2022-12-24T19:07:44.386Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Return masage the error if email already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "erro": {
+                      "type": "string",
+                      "example": "E-mail já existe"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Retorna todos os usuários",
+        "description": "Somente usuário admin pode acessar",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "in": "header",
+            "format": "uuid",
+            "description": "usario id",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "format": "uuid",
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "id": "80b1982b-d636-4398-8a9d-04f32fea90f6"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "example": "80b1982b-d636-4398-8a9d-04f32fea90f6"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "example": "false"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "josh"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "josh@example.com"
+                    },
+                    "created_at": {
+                      "type": "datetime",
+                      "example": "2022-12-24T19:07:44.386Z"
+                    },
+                    "updated_at": {
+                      "type": "datetime",
+                      "example": "2022-12-24T19:07:44.386Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Return masage the error if user not admin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "erro": {
+                      "type": "string",
+                      "example": "O usuário deve ser um admin"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{user_id}/admin": {
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "summary": "transforma usuário para admin",
+        "description": "Da permição de admin para o usuário",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "in": "path",
+            "format": "uuid",
+            "description": "usario id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Da permição de admin para o usuário",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "example": "80b1982b-d636-4398-8a9d-04f32fea90f6"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "example": "true"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "josh"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "josh@example.com"
+                    },
+                    "created_at": {
+                      "type": "datetime",
+                      "example": "2022-12-24T19:07:44.386Z"
+                    },
+                    "updated_at": {
+                      "type": "datetime",
+                      "example": "2022-12-24T19:07:44.386Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Se não achar usuário retorna uma mensagem de error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "erro": {
+                      "type": "string",
+                      "example": "Usuário não encontrado"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{user_id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Retorna um usuário especifico",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "in": "path",
+            "format": "uuid",
+            "description": "ID do usuário",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "O perassão realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "example": "80b1982b-d636-4398-8a9d-04f32fea90f6"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "example": "false"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "josh"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "josh@example.com"
+                    },
+                    "created_at": {
+                      "type": "datetime",
+                      "example": "2022-12-24T19:07:44.386Z"
+                    },
+                    "updated_at": {
+                      "type": "datetime",
+                      "example": "2022-12-24T19:07:44.386Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "erro": {
+                      "type": "string",
+                      "example": "Usuário não encontrado"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
